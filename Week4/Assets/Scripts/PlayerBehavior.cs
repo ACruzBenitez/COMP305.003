@@ -14,11 +14,16 @@ public class PlayerBehavior : MonoBehaviour
     public float groundRadious;
     public LayerMask groundLayerMask;
     public bool isGrounded;
+
+    [Header ("Animation")]
+    public Animator animator;
+
     private Rigidbody2D rigidbody2D;
     // Start is called before the first frame update
     void Start()
     {
         rigidbody2D = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -41,7 +46,17 @@ public class PlayerBehavior : MonoBehaviour
             x = Flip(x);
 
             //animation
+            animator.SetInteger("AnimationState", 1);
         }
+        else if(x == 0 && y == 0)
+        {
+            animator.SetInteger("AnimationState", 0);
+        }
+        if(y > 0)
+        {
+            animator.SetInteger("AnimationState", 2);
+        }
+        
         Vector2 move = new Vector2( x * horizontalForce, y * verticalForce );
         rigidbody2D.AddForce(move);
         }
